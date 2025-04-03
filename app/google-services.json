@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "396888656060",
+    "project_id": "torii-9bbdc",
+    "storage_bucket": "torii-9bbdc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:396888656060:android:99ae30be14c0a4e7a5a8b9",
+        "android_client_info": {
+          "package_name": "com.example.torii"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxXH_5cei0cq7wto_YGRhpal5anHOOcGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
