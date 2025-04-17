@@ -21,14 +21,24 @@ import com.example.torii.card.CategoryCard
 import com.example.torii.model.Category
 import com.example.torii.ui.theme.BeVietnamPro
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import com.example.torii.ui.theme.Feather
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(navController: NavController) {
 
     val categories = listOf(
-        Category("Animals", 120, "\uD83D\uDC18"), // 🐘
+        Category("Animal", 120, "\uD83D\uDC18"), // 🐘
         Category("Food", 95, "\uD83C\uDF55"), // 🍕
         Category("Technology", 80, "\uD83D\uDDA5\uFE0F"), // 🖥️
         Category("Travel", 60, "✈\uFE0F"), // ✈️
@@ -57,8 +67,12 @@ fun CategoryScreen(navController: NavController) {
         Category("Photography", 40, "\uD83D\uDCF8"), // 📸
         Category("Cooking", 75, "\uD83C\uDF73"), // 🍳
         Category("Fitness", 65, "\uD83C\uDFCB\uFE0F"), // 🏋️
-        Category("Shopping", 60, "\uD83D\uDECD\uFE0F") // 🛍️
+        Category("Shopping", 60, "\uD83D\uDECD\uFE0F"), // 🛍️
+        Category("Human", 50, "\uD83D\uDC64"), // 👨‍
+        Category("General", 30, "\uD83D\uDC68")
     )
+    var searchQuery by remember { mutableStateOf("") }
+
 
     Scaffold(
         topBar = {
@@ -71,19 +85,40 @@ fun CategoryScreen(navController: NavController) {
                 }
             )
         },
-        containerColor = Color(0xFFE3F2FD)
+        containerColor = Color.White
     ) { paddingValues ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2), // Chia thành 2 cột
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFE3F2FD))
-                .padding(horizontal = 8.dp),
-            contentPadding = PaddingValues(8.dp)
+                .background(Color.White)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(categories) { category ->
-                CategoryCard(category)
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp),
+                placeholder = { Text("Find category...", fontFamily = Feather, fontSize = 18.sp) },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Tìm kiếm") },
+                singleLine = true,
+                textStyle = TextStyle(fontFamily = Feather, fontSize = 18.sp),
+            )
+            val filteredCategories = categories.filter {
+                it.name.contains(searchQuery, ignoreCase = true)
+            }
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2), // Chia thành 2 cột
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White),
+            ) {
+                items(filteredCategories) { category ->
+                    CategoryCard(navController, category)
+                }
             }
         }
     }

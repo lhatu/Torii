@@ -1,5 +1,6 @@
 package com.example.torii.card
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.clickable
@@ -22,21 +23,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.torii.model.Category
 import com.example.torii.ui.theme.BeVietnamPro
+import com.example.torii.ui.theme.Feather
+import com.example.torii.ui.theme.Nunito
 
 @Composable
-fun CategoryCard(category: Category) {
+fun CategoryCard(navController : NavController, category: Category) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .aspectRatio(1f)
-            .clickable { /* Xử lý click */ },
+            .clickable { navController.navigate("vocabulary/${category.name}") },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White // Nền trắng cho card
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        border = BorderStroke(1.dp, Color.LightGray),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
 
@@ -67,14 +72,14 @@ fun CategoryCard(category: Category) {
                     text = category.name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = BeVietnamPro
+                    fontFamily = Feather
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
                     text = "${category.wordCount} words",
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     color = Color.Gray,
-                    fontFamily = BeVietnamPro
+                    fontFamily = Nunito
                 )
             }
         }

@@ -13,3 +13,44 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# 🔒 Firebase
+google-services.json
+firebase-adminsdk-*.json
+
+# 🔐 Android keystore files (dùng để ký release APK/AAB)
+*.jks
+*.keystore
+
+# 🔧 Local config
+local.properties
+
+# 🧠 Gradle
+.gradle/
+build/
+**/build/
+
+# 💼 IntelliJ / Android Studio
+.idea/
+*.iml
+
+# 📦 Dependency cache
+/caches
+*.lock
+
+# 📱 Emulator / device-specific
+*.apk
+*.ap_
+
+# 🧪 Test / debug
+*.log
+*.db
+*.sqlite
+
+# 📂 OS-specific
+.DS_Store
+Thumbs.db
+
+# 🔄 Environment file (nếu dùng dotenv lib)
+.env
+.env.*

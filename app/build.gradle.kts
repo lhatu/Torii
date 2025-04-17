@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
 }
 
 android {
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation("androidx.compose.material:material-icons-extended:1.5.0")
     implementation ("androidx.compose.runtime:runtime-livedata:1.0.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
@@ -72,6 +74,26 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation(libs.firebase.crashlytics.buildtools)
     implementation ("androidx.core:core-ktx:1.6.0")
+
+    // Retrofit API
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Youtube
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0")
+
+    // Room components
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Kotlin Coroutines support for Room
+    implementation ("androidx.room:room-ktx:2.6.1")
+
+    // UI Support
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+
+    // JSON
+    implementation ("com.google.code.gson:gson:2.10.1")
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.1")
 

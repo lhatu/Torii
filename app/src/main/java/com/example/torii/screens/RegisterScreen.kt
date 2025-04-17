@@ -4,10 +4,16 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,6 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.torii.repository.AuthRepository
 import com.example.torii.auth.GoogleAuthRepository
 import com.example.torii.ui.theme.BeVietnamPro
+import com.example.torii.ui.theme.Feather
+import com.example.torii.ui.theme.Nunito
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +42,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(navController: NavController, authRepo: AuthRepository, googleAuthRepo: GoogleAuthRepository) {
     var name by remember { mutableStateOf("") }
@@ -102,106 +111,153 @@ fun RegisterScreen(navController: NavController, authRepo: AuthRepository, googl
         modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Sign up", fontWeight = FontWeight.Bold, fontFamily = BeVietnamPro, fontSize = 28.sp)
+        Text(text = "Sign up", fontWeight = FontWeight.Bold, fontFamily = Feather, fontSize = 30.sp)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(text = "Sign up and let start learning Japanese", fontFamily = Nunito, color = Color.Gray, fontSize = 17.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Sign up and let start learning Japanese", fontFamily = BeVietnamPro, color = Color.Gray)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(text = "Your name", fontFamily = BeVietnamPro, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 16.sp, fontFamily = BeVietnamPro),
-            placeholder = { Text("Enter your full name", fontFamily = BeVietnamPro, fontSize = 15.sp) },
-            modifier = Modifier.fillMaxWidth()
+            textStyle = TextStyle(fontSize = 16.sp, fontFamily = Nunito),
+            placeholder = { Text("Full name", fontFamily = Nunito, fontSize = 16.sp, color = Color.Gray) },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = "Name Icon",
+                    tint = Color(0xFF1CB0F6)
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color(0xFFFAF6F6), // Nền xám nhạt
+                focusedBorderColor = Color(0xFF1CB0F6),
+                unfocusedBorderColor = Color.LightGray,
+            ),
         )
         if (showErrors && !isUsernameValid) {
             Text(
                 text = "Tên không được để trống",
                 color = MaterialTheme.colorScheme.error,
-                fontFamily = BeVietnamPro,
+                fontFamily = Nunito,
                 fontSize = 14.sp,
-                modifier = Modifier.padding(start = 8.dp, top = 10.dp)
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        Text(text = "Email", fontFamily = BeVietnamPro, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 16.sp, fontFamily = BeVietnamPro),
+            textStyle = TextStyle(fontSize = 16.sp, fontFamily = Nunito),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            placeholder = { Text("Enter your email", fontFamily = BeVietnamPro, fontSize = 15.sp) },
-            modifier = Modifier.fillMaxWidth()
+            placeholder = { Text("Email", fontFamily = Nunito, fontSize = 16.sp, color = Color.Gray) },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Email,
+                    contentDescription = "Email Icon",
+                    tint = Color(0xFF1CB0F6)
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color(0xFFFAF6F6), // Nền xám nhạt
+                focusedBorderColor = Color(0xFF1CB0F6),
+                unfocusedBorderColor = Color.LightGray,
+            ),
         )
         if (showErrors && !isEmailValid) {
             Text(
                 text = "Email không hợp lệ",
                 color = MaterialTheme.colorScheme.error,
-                fontFamily = BeVietnamPro,
+                fontFamily = Nunito,
                 fontSize = 14.sp,
-                modifier = Modifier.padding(start = 8.dp, top = 10.dp)
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        Text(text = "Password", fontFamily = BeVietnamPro, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             singleLine = true,
-            textStyle = TextStyle(fontSize = 16.sp, fontFamily = BeVietnamPro),
-            placeholder = { Text("Enter your password", fontFamily = BeVietnamPro, fontSize = 15.sp) },
+            textStyle = TextStyle(fontSize = 16.sp, fontFamily = Nunito),
+            placeholder = { Text("Password", fontFamily = Nunito, fontSize = 16.sp, color = Color.Gray) },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
-                val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val image = if (passwordVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = "Hiển thị mật khẩu")
+                    Icon(
+                        imageVector = image,
+                        contentDescription = "Toggle Password Visibility",
+                        tint = Color(0xFF1CB0F6)
+                    )
                 }
             },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Lock,
+                    contentDescription = "Password Icon",
+                    tint = Color(0xFF1CB0F6)
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color(0xFFFAF6F6), // Nền xám nhạt
+                focusedBorderColor = Color(0xFF1CB0F6),
+                unfocusedBorderColor = Color.LightGray,
+            ),
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(25.dp))
 
-        // Ô nhập lại mật khẩu
-        Text(text = "Confirm your password", fontFamily = BeVietnamPro, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
             singleLine = true,
-            placeholder = { Text("Enter your password", fontFamily = BeVietnamPro, fontSize = 15.sp) },
-            textStyle = TextStyle(fontSize = 16.sp, fontFamily = BeVietnamPro),
+            placeholder = { Text("Re-enter Password", fontFamily = Nunito, fontSize = 16.sp, color = Color.Gray) },
+            textStyle = TextStyle(fontSize = 16.sp, fontFamily = Nunito),
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
-                val image = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                val image = if (passwordVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = "Hiển thị mật khẩu")
+                    Icon(
+                        imageVector = image,
+                        contentDescription = "Toggle Password Visibility",
+                        tint = Color(0xFF1CB0F6)
+                    )
                 }
-            }
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.Lock,
+                    contentDescription = "Password Icon",
+                    tint = Color(0xFF1CB0F6)
+                )
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = Color(0xFFFAF6F6), // Nền xám nhạt
+                focusedBorderColor = Color(0xFF1CB0F6),
+                unfocusedBorderColor = Color.LightGray,
+            ),
         )
         if (showErrors  && !isPasswordValid) {
             Text(
                 text = "Mật khẩu phải có ít nhất 8 ký tự",
                 color = MaterialTheme.colorScheme.error,
                 fontSize = 14.sp,
-                fontFamily = BeVietnamPro,
-                modifier = Modifier.padding(start = 8.dp, top = 10.dp)
+                fontFamily = Nunito,
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp)
             )
         }
 
@@ -216,17 +272,21 @@ fun RegisterScreen(navController: NavController, authRepo: AuthRepository, googl
                         val success = authRepo.signUpWithEmail(email, password, name)
                         if (success) {
                             isLoading = false
-                            Toast.makeText(context, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Sign up successful", Toast.LENGTH_SHORT).show()
                             navController.navigate("home") { popUpTo("register") { inclusive = true } }
                         } else {
-                            Toast.makeText(context, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(context, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             },
             modifier = Modifier
                 .height(50.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(15.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF1CB0F6),
+            ),
         ) {
             if (isLoading) {
                 CircularProgressIndicator(
@@ -234,7 +294,7 @@ fun RegisterScreen(navController: NavController, authRepo: AuthRepository, googl
                     modifier = Modifier.size(24.dp) // Kích thước nhỏ hơn
                 )
             } else {
-                Text(text = "Đăng ký", fontFamily = BeVietnamPro, fontSize = 16.sp)
+                Text(text = "SIGN UP", fontFamily = Feather, fontSize = 16.sp)
             }
         }
 
@@ -244,29 +304,48 @@ fun RegisterScreen(navController: NavController, authRepo: AuthRepository, googl
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Or continue with", fontFamily = BeVietnamPro, color = Color.Gray,
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextButton(
+                onClick = { navController.navigate("login") },
                 modifier = Modifier
-                    .padding(top = 20.dp, bottom = 10.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = Color.Black
+                )
+            ) {
+                Text("Already have an account? ", fontFamily = Feather, fontSize = 15.sp)
+                Text("Sign in", fontFamily = Feather, fontSize = 15.sp, color = Color(0xFF1CB0F6))
+            }
+
+            Text(text = "Or continue with", fontFamily = Feather, color = Color.Gray, fontSize = 15.sp,
+                modifier = Modifier
+                    .padding(top = 20.dp, bottom = 15.dp)
                     .align(Alignment.CenterHorizontally)
             )
-            GoogleSignInButton(
-                onClick = {
-                    coroutineScope.launch {
-                        googleAuthRepo.signOut()
-                        val signInIntent = googleAuthRepo.getSignInIntent()
-                        googleSignInLauncher.launch(signInIntent)
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                GoogleSignInButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            googleAuthRepo.signOut()
+                            val signInIntent = googleAuthRepo.getSignInIntent()
+                            googleSignInLauncher.launch(signInIntent)
+                        }
                     }
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextButton(
-            onClick = { navController.navigate("login") },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text("Đã có tài khoản? Đăng nhập ngay", fontFamily = BeVietnamPro)
+                )
+                FacbookSignInButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            Toast.makeText(context, "The function is under development", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
+            }
         }
     }
 }

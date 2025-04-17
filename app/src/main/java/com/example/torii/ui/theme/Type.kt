@@ -38,3 +38,16 @@ val Typography = Typography(
 val BeVietnamPro = FontFamily(
     Font(R.font.bevietnampro_medium, FontWeight.Normal)
 )
+
+val Feather = FontFamily(
+    Font(R.font.featherbold, FontWeight.Normal)
+)
+
+val Nunito = FontFamily(
+    Font(R.font.nunito, FontWeight.Normal)
+)
+
+val NotoSansJP = FontFamily(
+    Font(R.font.jp_medium, FontWeight.Normal),
+    Font(R.font.jp_bold, FontWeight.Bold)
+)

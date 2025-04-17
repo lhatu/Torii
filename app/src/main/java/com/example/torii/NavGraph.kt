@@ -3,19 +3,24 @@ package com.example.torii
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.torii.auth.GoogleAuthRepository
 import com.example.torii.repository.AuthRepository
 import com.example.torii.screens.main.HomeScreen
 import com.example.torii.screens.main.LearningScreen
 import com.example.torii.screens.LoginScreen
 import com.example.torii.screens.RegisterScreen
-import com.example.torii.screens.main.TranslateScreen
+import com.example.torii.screens.articles.ArticleDetailScreen
+import com.example.torii.screens.articles.ArticlesScreen
 import com.example.torii.screens.main.CommunityScreen
+import com.example.torii.screens.video.VideoScreen
 import com.example.torii.screens.words.CategoryScreen
 import com.example.torii.screens.words.VocabularyScreen
+import com.example.torii.ui.screens.TranslateScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -36,7 +41,34 @@ fun AppNavGraph(navController: NavHostController) {
         composable("translate") { TranslateScreen(navController) }
         composable("learning") { LearningScreen(navController) }
         composable("community") { CommunityScreen(navController) }
-        composable("vocabulary") { VocabularyScreen(navController) }
+//        composable("vocabulary") { VocabularyScreen(navController) }
         composable("category") { CategoryScreen(navController) }
+        composable("vocabulary/{category}") { backStackEntry ->
+            val category = backStackEntry.arguments?.getString("category") ?: ""
+            VocabularyScreen(navController, category)
+        }
+        composable("articles") { ArticlesScreen(navController) }
+        composable(
+            route = "article_detail/{title}/{publishDate}/{content}/{imageUrl}/{audioUrl}",
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("publishDate") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType },
+                navArgument("imageUrl") { type = NavType.StringType },
+                navArgument("audioUrl") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val title = backStackEntry.arguments?.getString("title") ?: ""
+            val publishDate = backStackEntry.arguments?.getString("publishDate") ?: ""
+            val content = backStackEntry.arguments?.getString("content") ?: ""
+            val imageUrl = backStackEntry.arguments?.getString("imageUrl") ?: ""
+            val audioUrl = backStackEntry.arguments?.getString("audioUrl") ?: ""
+            ArticleDetailScreen(title, publishDate, content, imageUrl, audioUrl, navController)
+        }
+        composable("video/{videoId}") { backStackEntry ->
+            val videoId = backStackEntry.arguments?.getString("videoId") ?: return@composable
+            VideoScreen(navController, videoId = videoId)
+        }
+        composable("videos") { VideoScreen(navController) }
     }
 }

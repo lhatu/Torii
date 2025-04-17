@@ -13,14 +13,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,20 +25,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.torii.model.NewWord
-import com.example.torii.ui.theme.BeVietnamPro
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.torii.card.NewWordCard
+import com.example.torii.ui.theme.Feather
+import com.example.torii.viewModel.VocabularyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VocabularyScreen(navController: NavController) {
+fun VocabularyScreen(navController: NavController, category: String, viewModel: VocabularyViewModel = viewModel()) {
 
     val options = listOf("All", "Animal", "Food", "Technology", "Travel")
     var expanded by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf(options.get(0)) }
+    val category = category
+    var selectedCategory by remember { mutableStateOf(category) }
+    var searchText by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadAllVocabulary()
+    }
+    val vocabList = viewModel.vocabList.observeAsState(emptyList())
 
     val words = listOf(
         NewWord("Elephant", "Animal", "ˈɛlɪfənt", "a very large grey mammal", "The elephant is the largest land animal.", "https://cdn.mos.cms.futurecdn.net/TVR7E3Kuzg2iRhKkjZPeWk-1200-80.jpg"),
@@ -65,7 +74,7 @@ fun VocabularyScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Vocabulary List", fontWeight = FontWeight.Bold, fontFamily = BeVietnamPro) },
+                title = { Text("Vocabulary", fontWeight = FontWeight.Bold, fontFamily = Feather) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -78,56 +87,82 @@ fun VocabularyScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color(0xFFF2F6FF))
                 .padding(horizontal = 16.dp)
         ) {
-            // Dropdown để lọc theo chủ đề
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = !expanded },
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    value = selectedCategory,
-                    onValueChange = { selectedCategory = it },
-                    readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                    textStyle = TextStyle(fontFamily = BeVietnamPro, fontSize = 16.sp),
-                )
-                // Filter options based on text field value
-                if (true) {
-                    ExposedDropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                    ) {
-                        options.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                text = { Text(
-                                    selectionOption,
-                                    fontFamily = BeVietnamPro,
-                                    fontSize = 16.sp
-                                ) },
-                                onClick = {
-                                    selectedCategory = selectionOption
-                                    expanded = false
-                                },
-                                contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                            )
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                ) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .menuAnchor()
+                            .width(130.dp),
+                        value = selectedCategory,
+                        onValueChange = { selectedCategory = it },
+                        readOnly = true,
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        textStyle = TextStyle(fontFamily = Feather, fontSize = 16.sp),
+                        maxLines = 1
+                    )
+                    // Filter options based on text field value
+                    if (true) {
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                        ) {
+                            options.forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    text = { Text(
+                                        selectionOption,
+                                        fontFamily = Feather,
+                                        fontSize = 16.sp,
+                                        maxLines = 1,
+                                    ) },
+                                    onClick = {
+                                        selectedCategory = selectionOption
+                                        expanded = false
+                                    },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                )
+                            }
                         }
                     }
                 }
+
+                // 🔍 Ô tìm kiếm
+                OutlinedTextField(
+                    value = searchText,
+                    onValueChange = { searchText = it },
+                    modifier = Modifier
+                        .width(240.dp),
+                    placeholder = { Text("Find words...", fontFamily = Feather, fontSize = 18.sp) },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Tìm kiếm") },
+                    singleLine = true,
+                    textStyle = TextStyle(fontFamily = Feather, fontSize = 18.sp),
+                )
             }
+
+            // Lọc danh sách từ vựng theo searchText và category
+            val searchWord = vocabList.value.filter { word ->
+                (selectedCategory == "All" || word.category == selectedCategory) && // Nếu selectedCategory là "All", không lọc theo category
+                        (searchText.isEmpty() || word.meaning.contains(searchText, ignoreCase = true) ||
+                                word.meaning.contains(searchText, ignoreCase = true)) // Lọc theo searchText
+            }
+
             Spacer(modifier = Modifier.height(10.dp))
 
-//          Hiển thị danh sách các từ vựng đã lọc
+            // Hiển thị danh sách các từ vựng đã lọc
             LazyColumn {
-                items(filteredWords) { word ->
+                items(searchWord) { word ->
                     NewWordCard(word)
-                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }

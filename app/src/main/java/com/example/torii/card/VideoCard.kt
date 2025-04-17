@@ -24,18 +24,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.example.torii.model.VideoLesson
-import com.example.torii.ui.theme.BeVietnamPro
+import com.example.torii.model.Video
+import com.example.torii.ui.theme.Nunito
+import com.example.torii.viewModel.VideoViewModel
 
 @Composable
-fun VideoCard(video: VideoLesson) {
+fun VideoCard(navController: NavHostController, video: Video, videoViewModel: VideoViewModel = viewModel()) {
     Card(
         modifier = Modifier
             .width(260.dp)
-            .height(220.dp) // Đồng nhất kích thước
+            .height(250.dp) // Đồng nhất kích thước
             .padding(8.dp)
-            .clickable { /* Xử lý mở video */ },
+            .clickable {
+                videoViewModel.currentVideoId = video.videoId
+                videoViewModel.currentVideo = video
+                navController.navigate("video/${video.videoId}")
+            },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -58,8 +65,8 @@ fun VideoCard(video: VideoLesson) {
             ) {
                 Text(
                     text = video.title,
-                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = BeVietnamPro),
-                    maxLines = 1,
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold),
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -69,11 +76,11 @@ fun VideoCard(video: VideoLesson) {
                 ) {
                     Text(
                         text = video.duration,
-                        style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = BeVietnamPro)
+                        style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = Nunito)
                     )
                     Text(
                         text = video.datePosted,
-                        style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = BeVietnamPro)
+                        style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = Nunito)
                     )
                 }
             }

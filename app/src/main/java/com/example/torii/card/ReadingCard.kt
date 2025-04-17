@@ -1,5 +1,6 @@
 package com.example.torii.card
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,18 +25,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.torii.model.ReadingArticle
+import com.example.torii.model.Article
 import com.example.torii.ui.theme.BeVietnamPro
+import com.example.torii.ui.theme.Feather
+import com.example.torii.ui.theme.Nunito
 
 @Composable
-fun ReadingCard(article: ReadingArticle) {
+fun ReadingCard(navController: NavController, article: Article) {
     Card(
         modifier = Modifier
             .width(260.dp)
-            .height(220.dp) // Đặt chiều cao cố định cho tất cả Card
+            .height(300.dp) // Đặt chiều cao cố định cho tất cả Card
             .padding(8.dp)
-            .clickable { /* Xử lý click vào bài đọc */ },
+            .clickable {
+                navController.navigate("article_detail/${Uri.encode(article.title)}/${Uri.encode(article.publishDate)}" +
+                        "/${Uri.encode(article.content)}/${Uri.encode(article.imageUrl)}/${Uri.encode(article.audioUrl)}")
+            },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -58,14 +65,22 @@ fun ReadingCard(article: ReadingArticle) {
             ) {
                 Text(
                     text = article.title,
-                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = BeVietnamPro),
-                    maxLines = 1, // Giới hạn số dòng
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold),
+                    maxLines = 3, // Giới hạn số dòng
                     overflow = TextOverflow.Ellipsis // Thêm dấu "..." nếu quá dài
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = article.publishedDate,
-                    style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = BeVietnamPro),
+                    text = article.content.toString(),
+                    style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium, fontFamily = BeVietnamPro),
+                    color = Color.Black,
+                    maxLines = 3, // Giới hạn số dòng
+                    overflow = TextOverflow.Ellipsis // Thêm dấu "..." nếu quá dài
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = article.publishDate,
+                    style = TextStyle(fontSize = 14.sp, color = Color.Gray, fontFamily = Nunito),
                     modifier = Modifier.align(Alignment.End)
                 )
             }
