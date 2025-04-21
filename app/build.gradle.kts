@@ -95,6 +95,10 @@ dependencies {
     // JSON
     implementation ("com.google.code.gson:gson:2.10.1")
 
+    // Coli
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("io.coil-kt:coil-gif:2.2.2")
+
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.1")
 
     testImplementation(libs.junit)

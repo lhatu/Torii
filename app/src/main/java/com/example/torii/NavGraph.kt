@@ -1,5 +1,7 @@
 package com.example.torii
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -17,11 +19,13 @@ import com.example.torii.screens.RegisterScreen
 import com.example.torii.screens.articles.ArticleDetailScreen
 import com.example.torii.screens.articles.ArticlesScreen
 import com.example.torii.screens.main.CommunityScreen
+import com.example.torii.screens.search.KanjiScreen
 import com.example.torii.screens.video.VideoScreen
 import com.example.torii.screens.words.CategoryScreen
 import com.example.torii.screens.words.VocabularyScreen
-import com.example.torii.ui.screens.TranslateScreen
+import com.example.torii.screens.main.SearchScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavGraph(navController: NavHostController) {
     val navController = rememberNavController()
@@ -38,10 +42,9 @@ fun AppNavGraph(navController: NavHostController) {
             navController,
             authRepo
         ) }
-        composable("translate") { TranslateScreen(navController) }
+        composable("search") { SearchScreen(navController) }
         composable("learning") { LearningScreen(navController) }
         composable("community") { CommunityScreen(navController) }
-//        composable("vocabulary") { VocabularyScreen(navController) }
         composable("category") { CategoryScreen(navController) }
         composable("vocabulary/{category}") { backStackEntry ->
             val category = backStackEntry.arguments?.getString("category") ?: ""
@@ -70,5 +73,6 @@ fun AppNavGraph(navController: NavHostController) {
             VideoScreen(navController, videoId = videoId)
         }
         composable("videos") { VideoScreen(navController) }
+        composable("kanji") { KanjiScreen(navController) }
     }
 }

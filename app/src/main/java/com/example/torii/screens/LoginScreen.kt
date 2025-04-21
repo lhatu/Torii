@@ -94,13 +94,10 @@ fun LoginScreen(navController: NavController, authRepo: AuthRepository, googleAu
                         navController.navigate("home") {
                             popUpTo("login") { inclusive = true }
                         }
-                        Toast.makeText(context, "Đăng nhập Google thành công", Toast.LENGTH_SHORT)
-                            .show()
                     } else {
                         withContext(Dispatchers.Main) {
                             isLoading = false
                         }
-                        Toast.makeText(context, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(context, "Lỗi Firebase: ${e.message}", Toast.LENGTH_SHORT).show()

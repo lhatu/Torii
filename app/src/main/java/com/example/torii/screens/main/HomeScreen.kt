@@ -322,7 +322,7 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
         BottomNavItem("home", "Home", Icons.Default.Home),
-        BottomNavItem("translate", "Translate", Icons.Default.Translate),
+        BottomNavItem("search", "Search", Icons.Default.Translate),
         BottomNavItem("learning", "Study", Icons.Default.School),
         BottomNavItem("community", "Comunity", Icons.Default.People)
     )

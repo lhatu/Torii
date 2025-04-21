@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.torii.card.NewWordCard
 import com.example.torii.ui.theme.Feather
+import com.example.torii.ui.theme.Nunito
 import com.example.torii.viewModel.VocabularyViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -103,12 +104,11 @@ fun VocabularyScreen(navController: NavController, category: String, viewModel: 
                     OutlinedTextField(
                         modifier = Modifier
                             .menuAnchor()
-                            .width(130.dp),
+                            .width(110.dp),
                         value = selectedCategory,
                         onValueChange = { selectedCategory = it },
                         readOnly = true,
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
                         textStyle = TextStyle(fontFamily = Feather, fontSize = 16.sp),
                         maxLines = 1
                     )
@@ -143,10 +143,10 @@ fun VocabularyScreen(navController: NavController, category: String, viewModel: 
                     onValueChange = { searchText = it },
                     modifier = Modifier
                         .width(240.dp),
-                    placeholder = { Text("Find words...", fontFamily = Feather, fontSize = 18.sp) },
+                    placeholder = { Text("Find words...", fontFamily = Nunito, fontSize = 18.sp) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Tìm kiếm") },
                     singleLine = true,
-                    textStyle = TextStyle(fontFamily = Feather, fontSize = 18.sp),
+                    textStyle = TextStyle(fontFamily = Nunito, fontSize = 18.sp),
                 )
             }
 

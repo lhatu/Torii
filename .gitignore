@@ -54,3 +54,4 @@ Thumbs.db
 # 🔄 Environment file (nếu dùng dotenv lib)
 .env
 .env.*
+google-services.json
