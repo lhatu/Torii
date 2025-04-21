@@ -23,7 +23,7 @@ class GoogleAuthRepository(private val context: Context) {
     private val googleSignInClient: GoogleSignInClient = GoogleSignIn.getClient(
         context,
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("396888656060-a793thlpko61jjkbl5fed0h9e37641gf.apps.googleusercontent.com") // Thay bằng Web Client ID từ Firebase Console
+            .requestIdToken("") // Thay bằng Web Client ID từ Firebase Console
             .requestEmail()
             .build()
     )
