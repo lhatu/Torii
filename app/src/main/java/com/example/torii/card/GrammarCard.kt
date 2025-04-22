@@ -55,13 +55,17 @@ fun GrammarCard(grammar: Grammar) {
 
                 Box(
                     modifier = Modifier
-                        .background(Color(0xFFFFF3E0), shape = RoundedCornerShape(20.dp))
-                        .padding(horizontal = 10.dp, vertical = 5.dp),
-
-                    ) {
+                        .background(getJlptColor(grammar.jlptLevel), shape = RoundedCornerShape(20.dp))
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
+                ) {
                     Text(
                         text = grammar.jlptLevel,
-                        style = TextStyle(fontSize = 12.sp, color = Color.DarkGray, fontWeight = FontWeight.Medium, fontFamily = Feather),
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = Feather
+                        ),
                     )
                 }
             }
@@ -106,14 +110,16 @@ fun GrammarCard(grammar: Grammar) {
                 textAlign = TextAlign.Justify,
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-            Text(
-                text = grammar.example,
-                fontSize = 16.sp,
-                fontFamily = NotoSansJP,
-                color = Color.Gray
-            )
+            Spacer(Modifier.height(6.dp))
+            grammar.examples.forEach { example ->
+                Column(modifier = Modifier.padding(vertical = 4.dp)) {
+                    Text(example.sentence, fontSize = 16.sp, fontFamily = NotoSansJP)
+                    Spacer(Modifier.height(3.dp))
+                    Text(example.translation, fontSize = 15.sp, color = Color.Gray, fontFamily = BeVietnamPro)
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,24 +35,32 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.torii.card.GrammarCard
 import com.example.torii.card.KanjiCard
 import com.example.torii.model.Grammar
+import com.example.torii.model.GrammarExample
 import com.example.torii.model.Kanji
 import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
+import com.example.torii.viewModel.GrammarViewModel
+import com.example.torii.viewModel.KanjiViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = viewModel(),
+    GrammarViewModel: GrammarViewModel = viewModel()) {
 
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Kanji") }
 
+    val kanjiList by KanjiViewModel.filteredKanjiList.collectAsState()
+    val grammarList by GrammarViewModel.filteredGrammarList.collectAsState()
+
     // Fake data
-    val history = listOf("水", "行く", "〜ている", "勉強する")
+    val history = listOf("水", "いま", "に", "そうです")
     val popularKanjis = listOf(
         Kanji("水", listOf("スイ"), listOf("みず"), 4, "Water", "N5", "水を飲みます。"),
         Kanji("火", listOf("カ"), listOf("ひ"), 4, "Fire", "N5", "火が強いです。"),
@@ -60,20 +69,53 @@ fun SearchScreen(navController: NavController) {
     )
     val popularGrammar = listOf(
         Grammar(
-            phrase = "ことがある/こともある",
-            structure = "V/Vない + ことがある/こともある",
+            phrase = "とき",
+            structure = "V + とき(に) \nAい/Aな + とき(に) \nNの + とき(に)",
             meaning = "There are times when",
-            explanation = "『ことがある/こともある』indicates that something may not happen frequently, but occasionally does occur.",
+            explanation = "『とき』indicates the time or situation in which the event in the following clause occurs.",
             jlptLevel = "N5",
-            example = "大学を卒業した今でも、クラスメイトと会うことがあります。"
+            examples = listOf(
+                GrammarExample(
+                    sentence = "暇なとき、うちへ遊びに来ませんか。",
+                    translation = "Would you like to come visit my house when you have free time?"
+                )
+            )
         ),
         Grammar(
-            phrase = "だけましだ",
-            structure = "V/Aい/Aな/N + だけましだ",
-            meaning = "At least it's better than...",
-            explanation = "The phrase 『だけましだ』 is used to express a situation that may not be very good, but it's still manageable, and there's still a bit of luck or relief.",
+            phrase = "たいです",
+            structure = "V + たいです",
+            meaning = "want to do something",
+            explanation = "『たいです』is used to express what oneself wants to do, or to inquire about the listener's desires.",
             jlptLevel = "N5",
-            example = "給料は少ないけれど、仕事があるだけましだ。"
+            examples = listOf(
+                GrammarExample(
+                    sentence = "私は日本へ行きたいです。",
+                    translation = "I want to go to Japan."
+                ),
+                GrammarExample(
+                    sentence = "彼女と結婚したいです。",
+                    translation = "I want to marry her."
+                )
+            )
+        ),
+        Grammar(
+            phrase = "前に",
+            structure = "V1 + 前に、V2\nNの + 前に、V\nQuantity (time) + 前に、V",
+            meaning = "before; in front of ~",
+            explanation = "1. When used with a verb, it indicates that action 2 (V2) occurred before action 1 (V1). Regardless of whether it happened in the past or future, V1 is always in its root form.\n" +
+                    "2. When used with a noun, it indicates that the action V occurred before the noun N. N is a noun representing or indicating an action.\n" +
+                    "3. When used with a time expression indicating a period, it indicates that the action V occurred before the time specified, or some time before a certain point in time.",
+            jlptLevel = "N5",
+            examples = listOf(
+                GrammarExample(
+                    sentence = "寝る前に、本を読みます。",
+                    translation = "I read a book before going to bed."
+                ),
+                GrammarExample(
+                    sentence = "食事の前に、手を洗います。",
+                    translation = "Wash your hands before eating."
+                )
+            )
         )
     )
 
@@ -114,8 +156,8 @@ fun SearchScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ChoiceChip("Kanji", selectedCategory == "Kanji") { selectedCategory = "Kanji" }
-                        ChoiceChip("Grammar", selectedCategory == "Grammar") { selectedCategory = "Grammar" }
+                        ChoiceChip("Kanji", selectedCategory == "Kanji") { selectedCategory = "Kanji"; searchQuery = "" }
+                        ChoiceChip("Grammar", selectedCategory == "Grammar") { selectedCategory = "Grammar"; searchQuery = "" }
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -123,7 +165,14 @@ fun SearchScreen(navController: NavController) {
                     // Search Field
                     OutlinedTextField(
                         value = searchQuery,
-                        onValueChange = { searchQuery = it },
+                        onValueChange = {
+                            searchQuery = it
+                            if (selectedCategory == "Kanji") {
+                                KanjiViewModel.searchKanji(it)
+                            } else {
+                                GrammarViewModel.searchGrammar(it)
+                            }
+                        },
                         placeholder = {
                             if (selectedCategory == "Kanji")
                                 Text("金, キン, かね, gold", fontSize = 16.sp, fontFamily = Nunito)
@@ -145,18 +194,53 @@ fun SearchScreen(navController: NavController) {
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
+
+                    if (selectedCategory == "Kanji" && kanjiList.isNotEmpty() && searchQuery.isNotEmpty()) {
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier
+                                .height(600.dp)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        ) {
+                            items(kanjiList) { kanji ->
+                                KanjiCard(kanji)
+                            }
+                        }
+                    }
+                    else if (selectedCategory == "Grammar" && grammarList.isNotEmpty() && searchQuery.isNotEmpty()) {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            modifier = Modifier
+                                .height(600.dp)
+                                .fillMaxWidth()
+                        ) {
+                            items(grammarList) { grammar ->
+                                GrammarCard(grammar)
+                            }
+                        }
+                    }
                 }
 
                 item {
                     // History
-                    Text("Search History", fontWeight = Bold, fontFamily = Feather, fontSize = 23.sp)
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Text("Search History", fontWeight = Bold, fontFamily = Feather, fontSize = 25.sp)
+                    Spacer(modifier = Modifier.height(12.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         items(history, key = {it}) {item ->
                             Box(
                                 modifier = Modifier
+                                    .clickable {
+                                        searchQuery = item
+                                        if (selectedCategory == "Kanji") {
+                                            KanjiViewModel.searchKanji(item)
+                                        } else {
+                                            GrammarViewModel.searchGrammar(item)
+                                        }
+                                    }
                                     .background(Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp))
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .padding(horizontal = 12.dp, vertical = 6.dp),
                             ) {
                                 Text(text = item, fontWeight = Bold, fontSize = 16.sp)
                             }
@@ -174,7 +258,7 @@ fun SearchScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Kanji", fontWeight = Bold, fontFamily = Feather, fontSize = 23.sp)
+                        Text("Kanji", fontWeight = Bold, fontFamily = Feather, fontSize = 25.sp)
 
                         Text(
                             text = "See All",
@@ -204,7 +288,25 @@ fun SearchScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     // Grammar
-                    Text("Grammar", fontWeight = Bold, fontFamily = Feather, fontSize = 23.sp)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Grammar", fontWeight = Bold, fontFamily = Feather, fontSize = 25.sp)
+
+                        Text(
+                            text = "See All",
+                            color = Color(0xFF007BFF), // Màu xanh nước biển
+                            fontSize = 16.sp, // Nhỏ hơn tiêu đề
+                            fontFamily = Feather,
+                            fontWeight = Bold,
+                            modifier = Modifier
+                                .clickable { navController.navigate("grammar") }
+                                .padding(4.dp) // Khoảng cách để dễ nhấn
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         popularGrammar.forEach { grammar ->

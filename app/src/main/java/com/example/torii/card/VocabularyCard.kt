@@ -81,23 +81,28 @@ fun NewWordCard(word: Vocabulary) {
                     ) {
                         Box(
                             modifier = Modifier
-                                .background(Color(0xFFFFF3E0), shape = RoundedCornerShape(20.dp))
+                                .background(getJlptColor(word.tags), shape = RoundedCornerShape(20.dp))
                                 .padding(horizontal = 10.dp, vertical = 5.dp)
                         ) {
                             Text(
                                 text = word.tags,
-                                style = TextStyle(fontSize = 12.sp, color = Color.DarkGray, fontWeight = FontWeight.Medium, fontFamily = Feather),
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Medium,
+                                    fontFamily = Feather
+                                ),
                             )
                         }
                         Spacer(modifier = Modifier.width(10.dp))
                         Box(
                             modifier = Modifier
-                                .background(Color(0xFFE1F5FE), shape = RoundedCornerShape(20.dp))
+                                .background(Color(0xFF66BB6A), shape = RoundedCornerShape(20.dp))
                                 .padding(horizontal = 10.dp, vertical = 5.dp)
                         ) {
                             Text(
                                 text = word.category.toString(),
-                                style = TextStyle(fontSize = 12.sp, color = Color.DarkGray, fontWeight = FontWeight.Medium, fontFamily = Feather),
+                                style = TextStyle(fontSize = 12.sp, color = Color.White, fontWeight = FontWeight.Medium, fontFamily = Feather),
                             )
                         }
                     }

@@ -1,0 +1,193 @@
+[
+    {
+        "phrase": "だけましだ",
+        "structure": "V/Aい/Aな/N + だけましだ",
+        "meaning": "It’s better than; One should feel grateful for ~",
+        "explanation": "The phrase 『だけましだ』 is used to express a situation that may not be very good, but it's still manageable, and there's still a bit of luck or relief.",
+        "jlptLevel": "N2",
+        "examples": [
+            {
+                "sentence": "今日は暑いが、湿度 が高くないだけましだ。",
+                "translation": "It's hot today, but the humidity isn't too high."
+            },
+            {
+                "sentence": "君は仕事があるだけましだよ。俺は首になってしまった。",
+                "translation": "You're better off just having a job. I got fired."
+            }
+        ]
+    },
+    {
+        "phrase": "てみる",
+        "structure": "Vて + みる",
+        "meaning": "Try something",
+        "explanation": "『てみる』 expresses the meaning of trying or attempting to do something to see how it goes.",
+        "jlptLevel": "N4",
+        "examples": [
+            {
+                "sentence": "もう一度やってみます。",
+                "translation": "I'll try it again."
+            },
+            {
+                "sentence": "君の料理を食べてみたいです。",
+                "translation": "I'd like to try your cooking."
+            }
+        ]
+    },
+    {
+        "phrase": "がたい",
+        "structure": "V + がたい",
+        "meaning": "very difficult to; hard to ~",
+        "explanation": "『がたい』 expresses the difficulty or impossibility of carrying out an action due to mental or emotional barriers. This structure is not used to express difficulties related to capability. The verbs that accompany『がたい』 are quite limited and often relate to perception or speech.",
+        "jlptLevel": "N2",
+        "examples": [
+            {
+                "sentence": "古くなっても、このかばんには愛着があって捨てがたい。",
+                "translation": "Even though it's old, I'm still attached to this bag and can't throw it away."
+            },
+            {
+                "sentence": "息子 は留学という得がたい経験をして一回 り成長したようだ。",
+                "translation": "My son seems to have grown a lot after having the invaluable experience of studying abroad."
+            }
+        ]
+    },
+    {
+        "phrase": "くせして",
+        "structure": "V + くせして\nAい/Aな + くせして\nNの + くせして",
+        "meaning": "Although; Despite the fact that; Even though ~",
+        "explanation": "『くせして』expresses a situation or outcome goes against the speaker's thoughts or expectations, typically in a negative way, conveying the speaker's attitude of anger, reproach, or disdain towards the subject or person mentioned. Due to its critical and condemning tone, it is not used to describe oneself. Similar to 『くせに』 but used in casual or intimate conversations.",
+        "jlptLevel": "N2",
+        "examples": [
+            {
+                "sentence": "知らないくせして、知っているようなことを言うな。",
+                "translation": "Don't pretend like you know something when you don't know it."
+            },
+            {
+                "sentence": "大学生のくせして、そんなことも知らないの?",
+                "translation": "Even though you're a college student, you don't even know that?"
+            }
+        ]
+    },
+    {
+        "phrase": "とく",
+        "structure": "Vておく ➔ Vとく\nVでおく ➔ Vどく\nVておかない ➔ Vとかない",
+        "meaning": "To do something in advance",
+        "explanation": "『とく』 is a shortened form of 『ておく』, commonly used in everyday conversations, to express the following ideas:\n1. To perform an action necessary to prepare for a certain time or event.\n2. To perform an action necessary to prepare for future use; to do something as a temporary solution.\n3. To leave something as is; to maintain a certain state regardless of other factors.",
+        "jlptLevel": "N3",
+        "examples": [
+            {
+                "sentence": "これ洗濯しといて。",
+                "translation": "Wash this."
+            },
+            {
+                "sentence": "テストで間違 ったところを、ノートに書いとこう。",
+                "translation": "Write down what you did wrong on the test in your notebook."
+            }
+        ]
+    },
+    {
+        "phrase": "に/へ",
+        "structure": "N に/へ + V\nN への N'",
+        "meaning": "to (indicates direction / destination)",
+        "explanation": "『に/へ』are particles indicating the destination or direction towards which an action (V) is directed. The noun (N) before 『に/へ』 indicates a location, person, or direction, while the verb (V) after 『に/へ』 shows movement.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "日本に戻りたい。",
+                "translation": "I want to return to Japan."
+            },
+            {
+                "sentence": "家へ向かっているところです。",
+                "translation": "I'm on my way home."
+            }
+        ]
+    },
+    {
+        "phrase": "は",
+        "structure": "N + は",
+        "meaning": "is/are",
+        "explanation": "『は』is a particle used to mark the topic of a sentence. The speaker places 『は』after the topic they want to talk about and then adds necessary information after 『は』to form the sentence. This particle helps to establish what the sentence will be about, indicating the topic of discussion.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "私 はジョンです。",
+                "translation": "I am John."
+            },
+            {
+                "sentence": "それは面白 いですね。",
+                "translation": "That's interesting."
+            },
+            {
+                "sentence": "ナナさんは留学生 です。",
+                "translation": "Nana is an international student."
+            }
+        ]
+    },
+    {
+        "phrase": "も",
+        "structure": "N + も",
+        "meaning": "too; also; as well",
+        "explanation": "The particle 『も』has the meaning of \"also\" or \"too,\" and is used to add something of the same kind to what was mentioned before, such as objects, events, people, etc.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "私 もベトナム人です。",
+                "translation": "I'm also Vietnamese."
+            },
+            {
+                "sentence": "私 も日本語を勉強します。",
+                "translation": "I also study Japanese."
+            }
+        ]
+    },
+    {
+        "phrase": "に",
+        "structure": "N (time) に + V",
+        "meaning": "at (time)",
+        "explanation": "『に』 is used to indicate the specific time at which an action or event occurs.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "火曜日に大阪へ行きます。",
+                "translation": "I'm going to Osaka on Tuesday."
+            },
+            {
+                "sentence": "10月28日に日本へ来ました。",
+                "translation": "I came to Japan on October 28th."
+            }
+        ]
+    },
+    {
+        "phrase": "ですか",
+        "structure": "Aい/A/N + ですか\nV + のですか / んですか",
+        "meaning": "Isn't it?",
+        "explanation": "『ですか』is a question form used to confirm whether the content of the sentence is true or false. When there is an interrogative word (question word) in the sentence, 『ですか』is used to inquire about the information related to that interrogative word. The particle か serves the function of turning the sentence into a question.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "彼女は医者ですか。",
+                "translation": "Is she a doctor?"
+            },
+            {
+                "sentence": "あなたは日本人ですか。",
+                "translation": "Are you Japanese?"
+            }
+        ]
+    },
+    {
+        "phrase": "そうです",
+        "structure": "～そうです",
+        "meaning": "That's right",
+        "explanation": "「 そうです」is used to respond to a question about a noun and confirm that the asked content is correct.",
+        "jlptLevel": "N5",
+        "examples": [
+            {
+                "sentence": "これは鉛筆ですか。はい、そうです。",
+                "translation": "Is this a pencil? Yes, it is."
+            },
+            {
+                "sentence": "それはカメラですか。はい、そうです。",
+                "translation": "Is that a camera? Yes, it is."
+            }
+        ]
+    }
+]

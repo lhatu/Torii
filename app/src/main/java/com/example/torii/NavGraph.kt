@@ -24,6 +24,7 @@ import com.example.torii.screens.video.VideoScreen
 import com.example.torii.screens.words.CategoryScreen
 import com.example.torii.screens.words.VocabularyScreen
 import com.example.torii.screens.main.SearchScreen
+import com.example.torii.screens.search.GrammarScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -74,5 +75,6 @@ fun AppNavGraph(navController: NavHostController) {
         }
         composable("videos") { VideoScreen(navController) }
         composable("kanji") { KanjiScreen(navController) }
+        composable("grammar") { GrammarScreen(navController) }
     }
 }

@@ -49,6 +49,7 @@ fun KanjiCard(kanji: Kanji) {
     Card(
         modifier = Modifier
             .padding(vertical = 5.dp, horizontal = 2.dp)
+            .height(180.dp)
             .clickable { showDialog = true }
             .fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -73,7 +74,7 @@ fun KanjiCard(kanji: Kanji) {
                             text = kanji.jlptLevel,
                             style = TextStyle(
                                 fontSize = 12.sp,
-                                color = Color.DarkGray,
+                                color = Color.White,
                                 fontWeight = FontWeight.Medium,
                                 fontFamily = Feather
                             ),
@@ -100,8 +101,6 @@ fun KanjiCard(kanji: Kanji) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text("Strokes: ${kanji.strokes}", fontFamily = BeVietnamPro)
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(kanji.example, fontFamily = NotoSansJP, color = Color.Gray)
         }
     }
 
@@ -110,7 +109,7 @@ fun KanjiCard(kanji: Kanji) {
             onDismissRequest = { showDialog = false },
             confirmButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Close", fontSize = 18.sp, color = Color.Black)
+                    Text("Close", fontSize = 16.sp, color = Color.Black)
                 }
             },
             containerColor = Color.White,
@@ -139,11 +138,11 @@ fun KanjiCard(kanji: Kanji) {
 
 fun getJlptColor(level: String): Color {
     return when (level) {
-        "N1" -> Color(0xFFFFEBEE) // Đỏ nhạt
-        "N2" -> Color(0xFFFFF8E1) // Vàng
-        "N3" -> Color(0xFFEDE7F6) // Xanh nhạt
-        "N4" -> Color(0xFFE8EAF6) // Xanh lá nhạt
-        "N5" -> Color(0xFFE0F7FA) // Tím nhạt
+        "N1" -> Color(0xFFEC407A) // Đỏ nhạt
+        "N2" -> Color(0xFFFF7043) // Vàng
+        "N3" -> Color(0xFFFFCA28) // Xanh nhạt
+        "N4" -> Color(0xFF66BB6A) // Xanh lá nhạt
+        "N5" -> Color(0xFF42A5F5) // Tím nhạt
         else -> Color.LightGray
     }
 }
