@@ -1,8 +1,10 @@
 package com.example.torii
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +43,7 @@ import com.example.torii.auth.GoogleAuthRepository
 import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
 import com.example.torii.viewModel.TextToSpeechViewModel
+import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.launch
 
 class MainActivity() : ComponentActivity() {
@@ -49,12 +52,15 @@ class MainActivity() : ComponentActivity() {
     private lateinit var navController: NavHostController
     private lateinit var textToSpeechViewModel: TextToSpeechViewModel
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         googleAuthRepo = GoogleAuthRepository(this)
 
         textToSpeechViewModel = ViewModelProvider(this).get(TextToSpeechViewModel::class.java)
+
+        FirebaseApp.initializeApp(this)
 
         setContent {
             navController = rememberNavController() // ✅ Khởi tạo đúng cách
@@ -63,6 +69,7 @@ class MainActivity() : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(navController: NavHostController) {
     AppNavGraph(navController)

@@ -74,6 +74,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation(libs.firebase.crashlytics.buildtools)
     implementation ("androidx.core:core-ktx:1.6.0")
+    implementation("com.google.firebase:firebase-firestore-ktx")
 
     // Retrofit API
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -98,6 +99,9 @@ dependencies {
     // Coli
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("io.coil-kt:coil-gif:2.2.2")
+
+    // Flow Row
+    implementation("com.google.accompanist:accompanist-flowlayout:0.31.6-rc")
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.1")
 

@@ -142,7 +142,8 @@ fun VocabularyScreen(navController: NavController, category: String, viewModel: 
                     value = searchText,
                     onValueChange = { searchText = it },
                     modifier = Modifier
-                        .width(240.dp),
+                        .padding(start = 10.dp)
+                        .fillMaxWidth(),
                     placeholder = { Text("Find words...", fontFamily = Nunito, fontSize = 18.sp) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Tìm kiếm") },
                     singleLine = true,

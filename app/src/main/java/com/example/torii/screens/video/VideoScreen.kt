@@ -35,7 +35,7 @@ fun VideoScreen(navController: NavController, viewModel: VideoViewModel = viewMo
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("All Videos", fontWeight = FontWeight.Bold, fontFamily = Feather) },
+                title = { Text("Videos", fontWeight = FontWeight.Bold, fontFamily = Feather) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -54,7 +54,7 @@ fun VideoScreen(navController: NavController, viewModel: VideoViewModel = viewMo
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(250.dp) // Đồng nhất kích thước
+                        .height(300.dp) // Đồng nhất kích thước
                         .padding(8.dp)
                         .clickable {
                             viewModel.currentVideoId = video.videoId
@@ -70,7 +70,7 @@ fun VideoScreen(navController: NavController, viewModel: VideoViewModel = viewMo
                             model = video.thumbnailUrl,
                             contentDescription = video.title,
                             modifier = Modifier
-                                .height(130.dp) // Định kích thước ảnh
+                                .height(180.dp) // Định kích thước ảnh
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
                             contentScale = ContentScale.Crop

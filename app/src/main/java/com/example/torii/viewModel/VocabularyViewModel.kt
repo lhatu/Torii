@@ -21,9 +21,10 @@ class VocabularyViewModel(application: Application) : AndroidViewModel(applicati
 
     private lateinit var fullList: List<Vocabulary>
 
-    fun loadAllVocabulary(onLoaded: (() -> Unit)? = null) {
+    fun loadAllVocabulary(onLoaded: () -> Unit = {}) {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
+            if (!::fullList.isInitialized) {
+                // Load data từ JSON
                 val inputStream = getApplication<Application>().resources.openRawResource(R.raw.n5)
                 val reader = InputStreamReader(inputStream)
                 val type = object : TypeToken<List<Vocabulary>>() {}.type
@@ -31,10 +32,10 @@ class VocabularyViewModel(application: Application) : AndroidViewModel(applicati
 
                 withContext(Dispatchers.Main) {
                     _vocabList.value = fullList
-                    onLoaded?.invoke()  // Gọi callback nếu có
+                    onLoaded() // Gọi callback khi load xong
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                onLoaded() // Đã có data sẵn
             }
         }
     }
@@ -46,9 +47,22 @@ class VocabularyViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    fun loadAll() {
-        if (::fullList.isInitialized) {
-            _vocabList.value = fullList
+    fun searchVocabulary(keyword: String): Vocabulary? {
+        if (!::fullList.isInitialized) {
+            println("Warning: Data not loaded!")
+            return null
+        }
+
+        return fullList.firstOrNull { vocab ->
+            vocab.expression.trim() == keyword.trim() ||
+                    vocab.reading.trim() == keyword.trim()
+        }.also { result ->
+            if (result == null) {
+                println("""
+                [DEBUG] Word '$keyword' not found!
+                Available expressions: ${fullList.map { it.expression }}
+            """.trimIndent())
+            }
         }
     }
 }

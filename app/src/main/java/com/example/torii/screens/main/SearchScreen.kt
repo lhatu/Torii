@@ -22,16 +22,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,18 +50,26 @@ import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
 import com.example.torii.viewModel.GrammarViewModel
 import com.example.torii.viewModel.KanjiViewModel
+import com.example.torii.viewModel.SearchViewModel
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class, ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = viewModel(),
-    GrammarViewModel: GrammarViewModel = viewModel()) {
+    GrammarViewModel: GrammarViewModel = viewModel(), SearchViewModel: SearchViewModel = viewModel()) {
 
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Kanji") }
 
     val kanjiList by KanjiViewModel.filteredKanjiList.collectAsState()
     val grammarList by GrammarViewModel.filteredGrammarList.collectAsState()
+
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+    val searchHistory by rememberUpdatedState(SearchViewModel.searchHistory.collectAsState().value)
 
     // Fake data
     val history = listOf("水", "いま", "に", "そうです")
@@ -119,6 +131,8 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
         )
     )
 
+
+
     Scaffold(
         topBar = {
             Box(
@@ -162,6 +176,16 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
 
                     Spacer(modifier = Modifier.height(10.dp))
 
+                    // Debounce xử lý logic tìm kiếm
+                    LaunchedEffect(searchQuery) {
+                        snapshotFlow { searchQuery }
+                            .debounce(3000) // chỉ tìm sau 300ms không gõ gì
+                            .collect { query ->
+                                if (query != "" && query !in searchHistory)
+                                    SearchViewModel.saveSearchHistory(userId.toString(), query)
+                            }
+                    }
+
                     // Search Field
                     OutlinedTextField(
                         value = searchQuery,
@@ -193,7 +217,7 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
                         singleLine = true,
                     )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     if (selectedCategory == "Kanji" && kanjiList.isNotEmpty() && searchQuery.isNotEmpty()) {
                         LazyVerticalGrid(
@@ -224,30 +248,64 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
                 }
 
                 item {
-                    // History
-                    Text("Search History", fontWeight = Bold, fontFamily = Feather, fontSize = 25.sp)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(history, key = {it}) {item ->
-                            Box(
+                    // 📚 History
+                    if (searchHistory.isNotEmpty()) {
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("Search History", fontWeight = Bold, fontFamily = Feather, fontSize = 25.sp)
+
+                            Text(
+                                text = "Clear",
+                                color = Color(0xFFEF5350), // Màu xanh nước biển
+                                fontSize = 16.sp, // Nhỏ hơn tiêu đề
+                                fontFamily = Feather,
+                                fontWeight = Bold,
                                 modifier = Modifier
-                                    .clickable {
-                                        searchQuery = item
-                                        if (selectedCategory == "Kanji") {
-                                            KanjiViewModel.searchKanji(item)
-                                        } else {
-                                            GrammarViewModel.searchGrammar(item)
+                                    .clickable { SearchViewModel.clearSearchHistory(userId.toString()) }
+                                    .padding(4.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        FlowRow(
+                            maxLines = 2,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            searchHistory.forEach { item ->
+                                Box(
+                                    modifier = Modifier
+                                        .clickable {
+                                            searchQuery = item
+                                            if (selectedCategory == "Kanji") {
+                                                KanjiViewModel.searchKanji(item)
+                                            } else {
+                                                GrammarViewModel.searchGrammar(item)
+                                            }
                                         }
-                                    }
-                                    .background(Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp))
-                                    .padding(horizontal = 12.dp, vertical = 6.dp),
-                            ) {
-                                Text(text = item, fontWeight = Bold, fontSize = 16.sp)
+                                        .background(Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp))
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = item,
+                                        fontWeight = Bold,
+                                        fontSize = 16.sp,
+                                        fontFamily = Nunito
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(18.dp))
+                    }
                 }
 
                 item {

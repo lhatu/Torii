@@ -62,14 +62,30 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shadow
 import android.media.audiofx.LoudnessEnhancer
+import androidx.compose.material3.AlertDialog
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.torii.card.NewWordCard
+import com.example.torii.model.Vocabulary
+import com.example.torii.viewModel.VocabularyViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleDetailScreen(title: String, publishDate: String, content: String, imageUrl: String, audioUrl: String, navController: NavController) {
+fun ArticleDetailScreen(title: String, publishDate: String, content: String, imageUrl: String, audioUrl: String, navController: NavController
+    , viewModel: VocabularyViewModel = viewModel()) {
 
     val article = Article(title, publishDate, content, imageUrl, audioUrl)
 
+    var clickedWord by remember { mutableStateOf<String?>(null) }
+
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.loadAllVocabulary()
+    }
 
     Scaffold (
         topBar = {
@@ -126,11 +142,20 @@ fun ArticleDetailScreen(title: String, publishDate: String, content: String, ima
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ArticleContent(article.content ?: "") { wordClicked ->
-                // Gọi callback khi người dùng nhấn vào từ
-                Toast.makeText(context, "Word clicked: $wordClicked", Toast.LENGTH_SHORT).show()
-            }
 
+            Column {
+                ArticleContent(article.content ?: "") { word ->
+                    clickedWord = word
+                }
+
+                clickedWord?.let { word ->
+                    WordDialog(
+                        word = word,
+                        onDismiss = { clickedWord = null },
+                        viewModel = viewModel
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -318,6 +343,35 @@ fun ArticleContent(content: String, onWordClick: (String) -> Unit) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WordDialog(
+    word: String,
+    onDismiss: () -> Unit,
+    viewModel: VocabularyViewModel
+) {
+    val vocabulary by remember(word) {
+        derivedStateOf { viewModel.searchVocabulary(word) }
+    }
+
+    if (vocabulary != null) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            content = { NewWordCard(word = vocabulary!!) },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            )
+        )
+    } else {
+        Toast.makeText(
+            LocalContext.current,
+            "Không tìm thấy từ: $word",
+            Toast.LENGTH_SHORT
+        ).show()
+        onDismiss()
+    }
+}
 
 
 

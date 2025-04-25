@@ -1,10 +1,16 @@
 package com.example.torii.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.torii.R
 import com.example.torii.model.Kanji
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -47,7 +53,7 @@ class KanjiViewModel(application: Application) : AndroidViewModel(application) {
                 val meaning = data.optJSONArray("meanings")?.let { array ->
                     if (array.length() > 0) array.getString(0) else ""
                 } ?: ""
-                val jlpt = data.optInt("jlpt_new", 5).toString()
+                val jlpt = data.optInt("jlpt_new", 0).toString()
                 val example = ""
 
                 kanjis.add(

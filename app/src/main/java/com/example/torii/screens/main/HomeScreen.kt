@@ -211,7 +211,7 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "New words",
+                            text = "Vocabulary",
                             style = TextStyle(fontFamily = Feather, fontSize = 25.sp, fontWeight = FontWeight.Bold)
                         )
 

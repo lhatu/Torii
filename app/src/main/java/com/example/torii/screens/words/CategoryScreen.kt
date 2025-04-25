@@ -77,7 +77,7 @@ fun CategoryScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("All Categories", fontWeight = FontWeight.Bold, fontFamily = BeVietnamPro) },
+                title = { Text("All Categories", fontWeight = FontWeight.Bold, fontFamily = Feather) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")

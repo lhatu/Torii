@@ -94,7 +94,9 @@ fun GrammarScreen(navController: NavController, viewModel: GrammarViewModel = vi
                     },
                     placeholder = { Text("いつも, always", fontFamily = Nunito, fontSize = 16.sp) },
                     leadingIcon = { Icon(Icons.Default.Search, null) },
-                    modifier = Modifier.width(250.dp),
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                        .fillMaxWidth(),
                     singleLine = true,
                     textStyle = TextStyle(fontFamily = Nunito, fontSize = 18.sp),
                 )

@@ -122,7 +122,9 @@ fun KanjiScreen(navController: NavController, viewModel: KanjiViewModel = viewMo
                     },
                     placeholder = { Text("金, キン, かね, gold", fontFamily = Nunito, fontSize = 16.sp) },
                     leadingIcon = { Icon(Icons.Default.Search, null) },
-                    modifier = Modifier.width(250.dp),
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                        .fillMaxWidth(),
                     singleLine = true,
                     textStyle = TextStyle(fontFamily = Nunito, fontSize = 18.sp),
                 )
