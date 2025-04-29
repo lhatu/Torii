@@ -16,21 +16,23 @@ import com.example.torii.screens.main.HomeScreen
 import com.example.torii.screens.main.LearningScreen
 import com.example.torii.screens.LoginScreen
 import com.example.torii.screens.RegisterScreen
-import com.example.torii.screens.articles.ArticleDetailScreen
-import com.example.torii.screens.articles.ArticlesScreen
+import com.example.torii.screens.home.articles.ArticleDetailScreen
+import com.example.torii.screens.home.articles.ArticlesScreen
 import com.example.torii.screens.main.CommunityScreen
 import com.example.torii.screens.search.KanjiScreen
-import com.example.torii.screens.video.VideoScreen
-import com.example.torii.screens.words.CategoryScreen
-import com.example.torii.screens.words.VocabularyScreen
+import com.example.torii.screens.home.video.VideoScreen
+import com.example.torii.screens.home.words.CategoryScreen
+import com.example.torii.screens.home.words.VocabularyScreen
 import com.example.torii.screens.main.SearchScreen
 import com.example.torii.screens.search.GrammarScreen
+import com.example.torii.screens.study.FlashcardScreen
+import com.example.torii.screens.study.NotebookDetailScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNavGraph(navController: NavHostController) {
     val navController = rememberNavController()
-    val authRepo = AuthRepository() // Nếu AuthRepository có constructor
+    val authRepo = AuthRepository()
     val context = LocalContext.current
     val googleAuthRepo = GoogleAuthRepository(context)
 
@@ -76,5 +78,20 @@ fun AppNavGraph(navController: NavHostController) {
         composable("videos") { VideoScreen(navController) }
         composable("kanji") { KanjiScreen(navController) }
         composable("grammar") { GrammarScreen(navController) }
+
+        // Notebook routes
+        composable(
+            route = "notebook_detail/{notebookId}",
+            arguments = listOf(
+                navArgument("notebookId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val notebookId = backStackEntry.arguments?.getString("notebookId") ?: ""
+            NotebookDetailScreen(navController, notebookId)
+        }
+        composable("flashcard/{notebookId}") { backStackEntry ->
+            val notebookId = backStackEntry.arguments?.getString("notebookId") ?: ""
+            FlashcardScreen(navController, notebookId)
+        }
     }
 }

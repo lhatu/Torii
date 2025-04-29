@@ -1,4 +1,4 @@
-package com.example.torii.screens.words
+package com.example.torii.screens.home.words
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

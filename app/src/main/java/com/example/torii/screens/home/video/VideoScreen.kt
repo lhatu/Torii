@@ -1,4 +1,4 @@
-package com.example.torii.screens.video
+package com.example.torii.screens.home.video
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

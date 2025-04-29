@@ -384,7 +384,7 @@ fun ChoiceChip(label: String, selected: Boolean, onSelected: () -> Unit) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(50.dp))
-            .background(if (selected) Color(0xFF58CC02) else Color.White)
+            .background(if (selected) Color(0xFF43A047) else Color.White)
             .clickable { onSelected() }
             .width(120.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp),

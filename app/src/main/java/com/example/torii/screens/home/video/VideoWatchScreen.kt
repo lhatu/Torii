@@ -1,4 +1,4 @@
-package com.example.torii.screens.video
+package com.example.torii.screens.home.video
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background

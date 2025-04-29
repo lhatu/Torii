@@ -1,4 +1,4 @@
-package com.example.torii.screens.articles
+package com.example.torii.screens.home.articles
 
 import android.net.Uri
 import androidx.compose.foundation.clickable
