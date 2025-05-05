@@ -2,7 +2,14 @@ package com.example.torii.screens.main
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,6 +41,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -70,6 +78,17 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
     val userId = FirebaseAuth.getInstance().currentUser?.uid
 
     val searchHistory by rememberUpdatedState(SearchViewModel.searchHistory.collectAsState().value)
+
+    val indicatorOffset by animateDpAsState(
+        targetValue = when (selectedCategory) {
+            "Kanji" -> 0.dp
+            else -> 136.dp // 120.dp (width) + 16.dp (spacing)
+        },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     // Fake data
     val history = listOf("水", "いま", "に", "そうです")
@@ -166,12 +185,26 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
             {
                 item {
                     // Kanji / Grammar Toggle
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ChoiceChip("Kanji", selectedCategory == "Kanji") { selectedCategory = "Kanji"; searchQuery = "" }
-                        ChoiceChip("Grammar", selectedCategory == "Grammar") { selectedCategory = "Grammar"; searchQuery = "" }
+                    Box(modifier = Modifier.wrapContentSize()) {
+                        Row(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50.dp))
+                                .background(Color.LightGray.copy(alpha = 0.2f))
+                                .padding(4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            ChoiceChip(
+                                "Kanji",
+                                selectedCategory == "Kanji",
+                                { selectedCategory = "Kanji" }
+                            )
+                            ChoiceChip(
+                                "Grammar",
+                                selectedCategory == "Grammar",
+                                { selectedCategory = "Grammar" }
+                            )
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -380,11 +413,41 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
 }
 
 @Composable
-fun ChoiceChip(label: String, selected: Boolean, onSelected: () -> Unit) {
+fun ChoiceChip(
+    label: String,
+    selected: Boolean,
+    onSelected: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    // Animation cho màu nền
+    val backgroundColor by animateColorAsState(
+        targetValue = if (selected) Color(0xFF43A047) else Color.White,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    // Animation cho màu chữ
+    val textColor by animateColorAsState(
+        targetValue = if (selected) Color.White else Color.Black,
+        animationSpec = tween(durationMillis = 300)
+    )
+
+    // Animation cho scale khi chọn
+    val scale by animateFloatAsState(
+        targetValue = if (selected) 1.05f else 1f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    )
+
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(RoundedCornerShape(50.dp))
-            .background(if (selected) Color(0xFF43A047) else Color.White)
+            .background(backgroundColor)
             .clickable { onSelected() }
             .width(120.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -392,9 +455,9 @@ fun ChoiceChip(label: String, selected: Boolean, onSelected: () -> Unit) {
     ) {
         Text(
             text = label,
-            color = if (selected) Color.White else Color.Black,
+            color = textColor,
             fontFamily = Nunito,
-            fontWeight = Bold,
+            fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
         )
     }

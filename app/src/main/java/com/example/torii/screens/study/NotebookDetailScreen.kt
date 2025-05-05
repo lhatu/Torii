@@ -152,9 +152,9 @@ fun NotebookDetailScreen(
                         onClick = {
                             navController.navigate("flashcard/$notebookId")
                         },
-                        shape = RoundedCornerShape(15.dp),
+                        shape = RoundedCornerShape(50.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF43A047)
+                            containerColor = Color(0xFF2196F3)
                         ),
                         modifier = Modifier
                             .padding(vertical = 8.dp)
@@ -166,9 +166,9 @@ fun NotebookDetailScreen(
 
                     Button(
                         onClick = { navController.navigate("notebook/$notebookId/quiz") },
-                        shape = RoundedCornerShape(15.dp),
+                        shape = RoundedCornerShape(50.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF43A047)
+                            containerColor = Color(0xFF2196F3)
                         ),
                         modifier = Modifier
                             .padding(vertical = 8.dp)
