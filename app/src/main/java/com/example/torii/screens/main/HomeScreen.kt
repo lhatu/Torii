@@ -52,6 +52,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import com.example.torii.viewModel.VideoViewModel
 import com.example.torii.viewModel.VocabularyViewModel
+import androidx.compose.material3.NavigationBarItemDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -324,7 +325,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem("home", "Home", Icons.Default.Home),
         BottomNavItem("search", "Search", Icons.Default.Translate),
         BottomNavItem("learning", "Study", Icons.Default.School),
-        BottomNavItem("community", "Comunity", Icons.Default.People)
+        BottomNavItem("community", "Community", Icons.Default.People)
     )
 
     NavigationBar(
@@ -336,7 +337,10 @@ fun BottomNavigationBar(navController: NavController) {
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label, fontFamily = Feather) },
                 selected = currentRoute == item.route,
-                onClick = { navController.navigate(item.route) }
+                onClick = { navController.navigate(item.route) },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color(0xFFE8F5E9),
+                ),
             )
         }
     }

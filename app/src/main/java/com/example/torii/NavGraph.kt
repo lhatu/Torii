@@ -27,6 +27,7 @@ import com.example.torii.screens.main.SearchScreen
 import com.example.torii.screens.search.GrammarScreen
 import com.example.torii.screens.study.FlashcardScreen
 import com.example.torii.screens.study.NotebookDetailScreen
+import com.example.torii.screens.study.QuizScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -92,6 +93,17 @@ fun AppNavGraph(navController: NavHostController) {
         composable("flashcard/{notebookId}") { backStackEntry ->
             val notebookId = backStackEntry.arguments?.getString("notebookId") ?: ""
             FlashcardScreen(navController, notebookId)
+        }
+
+        composable(
+            route = "notebook/{notebookId}/quiz",
+            arguments = listOf(navArgument("notebookId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val notebookId = backStackEntry.arguments?.getString("notebookId") ?: return@composable
+            QuizScreen(
+                notebookId = notebookId,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

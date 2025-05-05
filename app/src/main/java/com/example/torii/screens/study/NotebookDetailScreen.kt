@@ -96,7 +96,7 @@ fun NotebookDetailScreen(
                     title = {
                         Text(
                             text = selectedNotebook?.title ?: "Notebook",
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = Bold,
                             fontFamily = Feather
                         )
                     },
@@ -165,7 +165,7 @@ fun NotebookDetailScreen(
                     }
 
                     Button(
-                        onClick = { /* Handle Quiz button click */ },
+                        onClick = { navController.navigate("notebook/$notebookId/quiz") },
                         shape = RoundedCornerShape(15.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF43A047)
