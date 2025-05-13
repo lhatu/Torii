@@ -1,0 +1,514 @@
+[
+    {
+        "id": "conversation",
+        "title": "Basic Japanese Greetings #01 - Sushi Restaurant",
+        "datePost": "May 15, 2025",
+        "duration": "02:47",
+        "videoUrl": "jtFHfUlhshA",
+        "imageUrl": "https://i.ytimg.com/vi/jtFHfUlhshA/maxresdefault.jpg",
+        "listVocab": [
+            {
+                "word": "ウニ",
+                "reading": "ウニ",
+                "meaning": "sea urchin"
+            },
+            {
+                "word": "サーモン",
+                "reading": "サーモン",
+                "meaning": "salmon"
+            },
+            {
+                "word": "マグロ",
+                "reading": "マグロ",
+                "meaning": "tuna"
+            },
+            {
+                "word": "トロ",
+                "reading": "トロ",
+                "meaning": "fatty tuna"
+            },
+            {
+                "word": "いか",
+                "reading": "いか",
+                "meaning": "squid"
+            },
+            {
+                "word": "イクラ",
+                "reading": "イクラ",
+                "meaning": "salmon roe"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "こんにちは",
+                "explanation": "This is the way to say \"hello\" when it is noon or afternoon."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "Name と申します",
+                "explanation": "Used to introduce your name. It is more polite than \"Name です\" and is often used when introducing yourself to"
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "conversation",
+        "title": "Basic Japanese Greetings #02 - Ask to Sit at a Different Table",
+        "datePost": "May 15, 2025",
+        "duration": "02:51",
+        "videoUrl": "ntjAOE5qG4Y",
+        "imageUrl": "https://i.ytimg.com/vi/ntjAOE5qG4Y/maxresdefault.jpg",
+        "listVocab": [
+            {
+                "word": "喫煙",
+                "reading": "きつえん",
+                "meaning": "smoking"
+            },
+            {
+                "word": "禁煙",
+                "reading": "きんえん",
+                "meaning": "non-smoking"
+            },
+            {
+                "word": "側",
+                "reading": "がわ",
+                "meaning": "beside"
+            },
+            {
+                "word": "窓",
+                "reading": "まど",
+                "meaning": "window"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "こんにちは",
+                "explanation": "This is the way to say \"hello\" when it is noon or afternoon."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "Name と申します",
+                "explanation": "Used to introduce your name. It is more polite than \"Name です\" and is often used when introducing yourself to"
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "conversation",
+        "title": "Basic Japanese Greetings #03 - Ask Someone to Order Something",
+        "datePost": "May 15, 2025",
+        "duration": "02:54",
+        "videoUrl": "6zki2G65KNE",
+        "imageUrl": "https://i.ytimg.com/vi/6zki2G65KNE/maxresdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "こんにちは",
+                "explanation": "This is the way to say \"hello\" when it is noon or afternoon."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "Name と申します",
+                "explanation": "Used to introduce your name. It is more polite than \"Name です\" and is often used when introducing yourself to"
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "grammar",
+        "title": "Learn Japanese Grammar - Introducing Yourself",
+        "datePost": "May 15, 2025",
+        "duration": "03:14",
+        "videoUrl": "kk56VlqQPCg",
+        "imageUrl": "https://i.ytimg.com/vi/kk56VlqQPCg/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "grammar",
+        "title": "Learn Japanese Grammar - Asking Simple Questions in Japanese",
+        "datePost": "May 15, 2025",
+        "duration": "03:48",
+        "videoUrl": "jjHRiY4x6K4",
+        "imageUrl": "https://i.ytimg.com/vi/jjHRiY4x6K4/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A　です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "grammar",
+        "title": "Learn Japanese Grammar - Asking What Something is in Japanese",
+        "datePost": "May 15, 2025",
+        "duration": "03:25",
+        "videoUrl": "ybesCP3AD04",
+        "imageUrl": "https://i.ytimg.com/vi/ybesCP3AD04/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A　です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "kanji",
+        "title": "Introduction to Kanji Radicals – Learn to Read and Write Japanese Kanji Characters",
+        "datePost": "May 15, 2025",
+        "duration": "04:40",
+        "videoUrl": "h5B8ZyYRczU",
+        "imageUrl": "https://i.ytimg.com/vi/h5B8ZyYRczU/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A　です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "kanji",
+        "title": "Learn Kanji Radical 亻 - How to Read and Write Japanese",
+        "datePost": "May 15, 2025",
+        "duration": "06:24",
+        "videoUrl": "oxYXqVipV5M",
+        "imageUrl": "https://i.ytimg.com/vi/oxYXqVipV5M/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A　です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    },
+    {
+        "id": "kanji",
+        "title": "Learn Kanji Radical 女 - How to Read and Write Japanese",
+        "datePost": "May 15, 2025",
+        "duration": "05:05",
+        "videoUrl": "5tk06rpKe5M",
+        "imageUrl": "https://i.ytimg.com/vi/5tk06rpKe5M/hqdefault.jpg",
+        "listVocab": [
+            {
+                "word": "配達",
+                "reading": "はいたつ",
+                "meaning": "delivery, distribution"
+            },
+            {
+                "word": "東京都",
+                "reading": "とうきょうと",
+                "meaning": "Tokyo Metropolis"
+            },
+            {
+                "word": "区",
+                "reading": "く",
+                "meaning": "ward"
+            },
+            {
+                "word": "市",
+                "reading": "し",
+                "meaning": "city"
+            },
+            {
+                "word": "町",
+                "reading": "ちょう",
+                "meaning": "town"
+            },
+            {
+                "word": "村",
+                "reading": "むら",
+                "meaning": "village"
+            }
+        ],
+        "listGrammar": [
+            {
+                "structure": "初めまして",
+                "explanation": "Nice to meet you."
+            },
+            {
+                "structure": "お名前は？",
+                "explanation": "Used to ask the person's name."
+            },
+            {
+                "structure": "わたしは A　です。",
+                "explanation": "My name is A."
+            },
+            {
+                "structure": "はじめまして。",
+                "explanation": "This is a greeting used when meeting someone for the first time, meaning \"It's our first meeting, I'm very glad to meet"
+            }
+        ]
+    }
+]

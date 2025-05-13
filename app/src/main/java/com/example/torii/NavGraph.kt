@@ -26,6 +26,8 @@ import com.example.torii.screens.home.words.VocabularyScreen
 import com.example.torii.screens.main.SearchScreen
 import com.example.torii.screens.search.GrammarScreen
 import com.example.torii.screens.study.FlashcardScreen
+import com.example.torii.screens.study.JapaneseAlphabetScreen
+import com.example.torii.screens.study.LessonDetailScreen
 import com.example.torii.screens.study.NotebookDetailScreen
 import com.example.torii.screens.study.QuizScreen
 
@@ -104,6 +106,21 @@ fun AppNavGraph(navController: NavHostController) {
                 notebookId = notebookId,
                 onBack = { navController.popBackStack() }
             )
+        }
+        composable("alphabet/{selectTab}") { backStackEntry ->
+            val selectTab = backStackEntry.arguments?.getString("selectTab") ?: "hiragana"
+            JapaneseAlphabetScreen(
+                navController = navController,
+                selectTab = selectTab
+            )
+        }
+        // Trong NavGraph của bạn
+        composable(
+            route = "lessons/{lessonId}",
+            arguments = listOf(navArgument("lessonId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
+            LessonDetailScreen(lessonId = lessonId)
         }
     }
 }

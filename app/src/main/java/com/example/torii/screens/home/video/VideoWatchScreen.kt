@@ -83,7 +83,8 @@ fun VideoScreen(navController: NavHostController, videoId: String, videoViewMode
             onPlayerReady = { player -> youtubePlayer.value = player },
             onTimeUpdate = { time ->
                 currentTime = time // Cập nhật currentTime khi video phát
-            })
+            }
+        )
 
         if (!isLandscape) {
             LazyColumn(

@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.buildtools)
     implementation ("androidx.core:core-ktx:1.6.0")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
 
     // Retrofit API
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
@@ -102,6 +103,12 @@ dependencies {
 
     // Flow Row
     implementation("com.google.accompanist:accompanist-flowlayout:0.31.6-rc")
+
+    //Image Upload
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.1")
 

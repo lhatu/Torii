@@ -12,6 +12,10 @@ import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Translate
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.People
+import androidx.compose.material.icons.outlined.School
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +57,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import com.example.torii.viewModel.VideoViewModel
 import com.example.torii.viewModel.VocabularyViewModel
 import androidx.compose.material3.NavigationBarItemDefaults
+import com.example.torii.ui.theme.NotoSansJP
+import com.example.torii.ui.theme.Nunito
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,11 +66,8 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
                viewModel: ArticleViewModel = viewModel(), viewModel1: VocabularyViewModel = viewModel(), videoViewModel: VideoViewModel = viewModel()) {
 
     val user = authRepo.getCurrentUser()
-
     val articles = viewModel.articles.collectAsState()
-
     val vocabList = viewModel1.vocabList.observeAsState(emptyList())
-
     val videos = videoViewModel.videoList
 
     LaunchedEffect(Unit) {
@@ -322,24 +325,37 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        BottomNavItem("home", "Home", Icons.Default.Home),
-        BottomNavItem("search", "Search", Icons.Default.Translate),
-        BottomNavItem("learning", "Study", Icons.Default.School),
-        BottomNavItem("community", "Community", Icons.Default.People)
+        BottomNavItem("home", "Home", Icons.Default.Home, Icons.Outlined.Home),
+        BottomNavItem("search", "Search", Icons.Default.Translate, Icons.Outlined.Translate),
+        BottomNavItem("learning", "Study", Icons.Default.School, Icons.Outlined.School),
+        BottomNavItem("community", "Community", Icons.Default.People, Icons.Outlined.People)
     )
 
     NavigationBar(
-        containerColor = Color.White,
+        containerColor = Color(0x8BF5F5F5),
     ) {
         val currentRoute = navController.currentDestination?.route
         items.forEach { item ->
+            val selected = currentRoute == item.route
             NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label, fontFamily = Feather) },
-                selected = currentRoute == item.route,
-                onClick = { navController.navigate(item.route) },
+                icon = {
+                    Icon(
+                        imageVector = if (selected) item.selectedIcon else item.unselectedIcon,
+                        contentDescription = item.label
+                    )
+                },
+                label = { Text(item.label, fontFamily = Nunito) },
+                selected = selected,
+                onClick = {
+                    if (!selected) {
+                        navController.navigate(item.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color(0xFFE8F5E9),
+                    indicatorColor = Color(0xB4B3E5FC),
                 ),
             )
         }

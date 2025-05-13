@@ -21,7 +21,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -54,6 +57,7 @@ import com.example.torii.card.KanjiCard
 import com.example.torii.model.Grammar
 import com.example.torii.model.GrammarExample
 import com.example.torii.model.Kanji
+import com.example.torii.ui.theme.BeVietnamPro
 import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
 import com.example.torii.viewModel.GrammarViewModel
@@ -150,18 +154,15 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
         )
     )
 
-
-
     Scaffold(
         topBar = {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White) // Màu nền áp dụng cho cả padding
             ) {
-                TopAppBar(
-                    title = { Text("Search", fontWeight = Bold, fontFamily = Feather) },
-                    modifier = Modifier.padding(end = 12.dp),
+                CenterAlignedTopAppBar(
+                    title = { Text("Search", fontFamily = Feather) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent, // Để màu nền của Box hiển thị
                         titleContentColor = Color.Black // Màu chữ tiêu đề
@@ -170,7 +171,6 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
                         // Action
                     }
                 )
-
             }
         },
         bottomBar = {
@@ -189,7 +189,7 @@ fun SearchScreen(navController: NavController, KanjiViewModel: KanjiViewModel = 
                         Row(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(50.dp))
-                                .background(Color.LightGray.copy(alpha = 0.2f))
+                                .background(Color.White)
                                 .padding(4.dp),
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             verticalAlignment = Alignment.CenterVertically
