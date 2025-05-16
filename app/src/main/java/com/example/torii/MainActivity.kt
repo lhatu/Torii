@@ -44,6 +44,7 @@ import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
 import com.example.torii.viewModel.TextToSpeechViewModel
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class MainActivity() : ComponentActivity() {
@@ -59,8 +60,6 @@ class MainActivity() : ComponentActivity() {
         googleAuthRepo = GoogleAuthRepository(this)
 
         textToSpeechViewModel = ViewModelProvider(this).get(TextToSpeechViewModel::class.java)
-
-        FirebaseApp.initializeApp(this)
 
         setContent {
             navController = rememberNavController() // ✅ Khởi tạo đúng cách

@@ -1,29 +1,58 @@
-package com.example.torii.screens.main
+package com.example.torii.screens.community
 
-import android.text.format.DateUtils
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Comment
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Repeat
-import androidx.compose.material.icons.outlined.Share
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,165 +65,212 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import com.example.torii.ui.theme.Feather
-import com.example.torii.viewModel.CommunityViewModel
+import com.example.torii.card.WelcomeCard
 import com.example.torii.model.Post
+import com.example.torii.screens.main.EditPostDialog
+import com.example.torii.screens.main.getRelativeTime
 import com.example.torii.ui.theme.BeVietnamPro
+import com.example.torii.ui.theme.Feather
 import com.example.torii.ui.theme.Nunito
+import com.example.torii.viewModel.CommunityViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommunityScreen(
-    navController: NavHostController,
-    viewModel: CommunityViewModel = viewModel()
-) {
-    val context = LocalContext.current
-    val posts by remember { viewModel.posts }
+fun UserProfileScreen(navController: NavController, viewModel: CommunityViewModel = viewModel()) {
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val userId = currentUser?.uid ?: ""
+    val userName = currentUser?.displayName ?: "Null"
+    val userEmail = currentUser?.email ?: "null"
+    val userImageUrl = currentUser?.photoUrl?.toString() ?: ""
+    val posts = viewModel.userPosts
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        if (uri != null) {
-            viewModel.selectedImageUri = uri
+    var showDialog by remember { mutableStateOf(false) }
+    var newName by remember { mutableStateOf(userName) }
+
+    LaunchedEffect(userId) {
+        if (userId.isNotEmpty()) {
+            viewModel.loadPostsByUser(userId)
         }
     }
 
-    if (viewModel.isLoading) {
+    if (showDialog) {
         AlertDialog(
-            onDismissRequest = {},
-            confirmButton = {},
+            onDismissRequest = { showDialog = false },
+            title = { Text("Đổi tên", fontFamily = BeVietnamPro, fontSize = 22.sp, fontWeight = Bold) },
             text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    CircularProgressIndicator()
+                OutlinedTextField(
+                    value = newName,
+                    onValueChange = { newName = it },
+                    label = { Text("Tên mới", fontFamily = Nunito, fontSize = 14.sp) },
+                    textStyle = TextStyle(
+                        fontSize = 18.sp,
+                        fontFamily = BeVietnamPro
+                    ),
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.updateUserName(newName)
+                    showDialog = false
+                }) {
+                    Text("Lưu", fontFamily = Nunito, color = Color.Black, fontSize = 16.sp)
                 }
             },
-            modifier = Modifier
-                .width(100.dp)
-                .height(90.dp)
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Hủy", fontFamily = Nunito, color = Color.Black, fontSize = 16.sp)
+                }
+            }
         )
     }
 
-    Scaffold(
-        topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-            ) {
-                CenterAlignedTopAppBar(
-                    title = { Text("Community", fontFamily = Feather) },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.Transparent,
-                        titleContentColor = Color.Black
-                    )
-                )
-            }
-        },
-        bottomBar = { BottomNavigationBar(navController) },
-        content = { paddingValues ->
-            LazyColumn(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                // Post input box
-                item {
-                    Card(
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Header người dùng
+
+
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFF5F5F5))
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AsyncImage(
+                        model = userImageUrl,
+                        contentDescription = "Ảnh đại diện",
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        ),
-                    ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            OutlinedTextField(
-                                value = viewModel.newPostText,
-                                onValueChange = { viewModel.newPostText = it },
-                                placeholder = { Text("What do you think?", fontFamily = Nunito) },
-                                modifier = Modifier.fillMaxWidth(),
-                                trailingIcon = {
-                                    IconButton(
-                                        onClick = {
-                                            if (viewModel.selectedImageUri == null) {
-                                                launcher.launch("image/*")
-                                            }
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.Image,
-                                            contentDescription = "Chọn ảnh"
-                                        )
-                                    }
-                                },
-                                textStyle = TextStyle(
-                                    fontSize = 18.sp,
-                                    fontFamily = Nunito
-                                ),
-                                shape = RoundedCornerShape(10.dp)
+                            .size(64.dp)
+                            .clip(CircleShape)
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = userName,
+                                fontFamily = BeVietnamPro,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
                             )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center,
-                            ) {
-                                viewModel.selectedImageUri?.let { uri ->
-                                    Image(
-                                        painter = rememberAsyncImagePainter(uri),
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                            .padding(8.dp)
-                                            .size(400.dp),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Button(
-                                onClick = {
-                                    viewModel.addPost(context)
-                                },
-                                modifier = Modifier.align(Alignment.End),
-                                colors = ButtonDefaults.buttonColors(Color(0xFF43A047))
-                            ) {
-                                Text("Post", fontFamily = Feather, fontSize = 16.sp)
-                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Sửa tên",
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .clickable { showDialog = true }
+                            )
                         }
-
-                        HorizontalDivider(
-                            modifier = Modifier
-                                .fillMaxWidth()  // Make the line fill the width of the parent
-                                .padding(vertical = 8.dp),  // Add some vertical padding for spacing
-                            thickness = 1.dp, // Line thickness
-                            color = Color.LightGray  // Line color
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = userEmail,
+                            fontFamily = BeVietnamPro,
+                            fontSize = 14.sp,
+                            color = Color.Gray
                         )
                     }
                 }
 
-                // Post list
-                items(posts) { post ->
-                    PostItem(post)
+                Spacer(modifier = Modifier.height(10.dp))
+
+                val streak = remember { (1..50).random() }         // Ngẫu nhiên từ 1 đến 50 ngày
+                val xp = remember { (100..1000).random() }         // Ngẫu nhiên từ 100 đến 1000 XP
+                val rank = "Silver"
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Column() {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("🔥", fontSize = 20.sp)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "$streak",
+                                fontFamily = Feather,
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Text(
+                                text = "Day streak",
+                                fontFamily = Nunito,
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
+
+                    Column() {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("⭐", fontSize = 20.sp)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "$xp",
+                                fontFamily = Feather,
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Text(
+                                text = "Total XP",
+                                fontFamily = Nunito,
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
+
+                    Column() {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("\uD83D\uDEE1\uFE0F", fontSize = 20.sp)
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "$rank",
+                                fontFamily = Feather,
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Text(
+                                text = "Rank",
+                                fontFamily = Nunito,
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            )
+                        }
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Divider()
+            }
+
+            items(posts.value) { post ->
+                PostCard(post)
             }
         }
-    )
+    }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostItem(post: Post, viewModel: CommunityViewModel = viewModel()) {
+fun PostCard(post: Post, viewModel: CommunityViewModel = viewModel()) {
 
     val user = FirebaseAuth.getInstance().currentUser
     val currentUserId = user?.uid
@@ -524,56 +600,6 @@ fun PostItem(post: Post, viewModel: CommunityViewModel = viewModel()) {
     }
 }
 
-fun getRelativeTime(timestamp: Long): String {
-    val now = System.currentTimeMillis()
-    val diff = now - timestamp
 
-    val seconds = diff / 1000
-    val minutes = seconds / 60
-    val hours = minutes / 60
-    val days = hours / 24
 
-    return when {
-        seconds < 60 -> "Just now"
-        minutes < 60 -> "$minutes minutes ago"
-        hours < 24 -> "$hours hours ago"
-        days < 7 -> "$days days ago"
-        else -> {
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            sdf.format(Date(timestamp))
-        }
-    }
-}
 
-@Composable
-fun EditPostDialog(
-    initialText: String,
-    onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
-) {
-    var newText by remember { mutableStateOf(initialText) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(onClick = { onConfirm(newText) }) {
-                Text("Save", fontFamily = Nunito, color = Color.Black, fontSize = 16.sp)
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel", fontFamily = Nunito, color = Color.Gray, fontSize = 16.sp)
-            }
-        },
-        title = { Text("Edit Post", fontFamily = BeVietnamPro, fontSize = 22.sp, fontWeight = Bold) },
-        text = {
-            TextField(
-                value = newText,
-                onValueChange = { newText = it },
-                label = { Text("Post Content") },
-                singleLine = false,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-    )
-}

@@ -16,6 +16,9 @@ import com.example.torii.screens.main.HomeScreen
 import com.example.torii.screens.main.LearningScreen
 import com.example.torii.screens.LoginScreen
 import com.example.torii.screens.RegisterScreen
+import com.example.torii.screens.community.UserProfileScreen
+import com.example.torii.screens.home.NotificationScreen
+import com.example.torii.screens.home.SettingsScreen
 import com.example.torii.screens.home.articles.ArticleDetailScreen
 import com.example.torii.screens.home.articles.ArticlesScreen
 import com.example.torii.screens.main.CommunityScreen
@@ -39,7 +42,9 @@ fun AppNavGraph(navController: NavHostController) {
     val context = LocalContext.current
     val googleAuthRepo = GoogleAuthRepository(context)
 
-    NavHost(navController = navController, startDestination = "splash") {
+    val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+
+    NavHost(navController = navController, startDestination = if (currentUser != null) "home" else "splash") {
         composable("login") { LoginScreen(navController, authRepo, googleAuthRepo) }
         composable("register") { RegisterScreen(navController, authRepo, googleAuthRepo) }
         composable("splash") { SplashScreen(navController) }
@@ -122,5 +127,17 @@ fun AppNavGraph(navController: NavHostController) {
             val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
             LessonDetailScreen(lessonId = lessonId)
         }
+        composable("profile") { UserProfileScreen(navController) }
+        composable("settings") {
+            SettingsScreen(
+                navController = navController,
+                onLogout = {
+                    navController.navigate("login") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable("notification") { NotificationScreen(navController) }
     }
 }

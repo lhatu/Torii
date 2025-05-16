@@ -1,5 +1,7 @@
 package com.example.torii.screens.main
 
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -105,14 +107,18 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
                                 }
                             }
                         ) {
-                            IconButton(onClick = { /* Xử lý mở thông báo */ }) {
+                            IconButton(onClick = {
+                                navController.navigate("notification")
+                            }) {
                                 Icon(Icons.Default.Notifications, contentDescription = "Thông báo")
                             }
                         }
 
                         Spacer(modifier = Modifier.width(4.dp)) // Tạo khoảng cách giữa các icon
 
-                        IconButton(onClick = { /* Xử lý cài đặt */ }) {
+                        IconButton(onClick = {
+                            navController.navigate("settings")
+                        }) {
                             Icon(Icons.Default.Settings, contentDescription = "Cài đặt")
                         }
 
@@ -125,6 +131,7 @@ fun HomeScreen(navController: NavHostController, authRepo: AuthRepository,
                                 modifier = Modifier
                                     .size(35.dp)
                                     .clip(CircleShape)
+                                    .clickable { navController.navigate("profile") }
                             )
                         }
                     }
