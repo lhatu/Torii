@@ -56,9 +56,9 @@ class CommunityViewModel : ViewModel() {
 
     private val cloudinary = Cloudinary(
         ObjectUtils.asMap(
-            "cloud_name", "dml7vsbx7",
-            "api_key", "115634565249752",
-            "api_secret", "sBxxXvCAeXJD7z5tx1hu0DYgzto"
+            "cloud_name", "",
+            "api_key", "",
+            "api_secret", ""
         )
     )
 
